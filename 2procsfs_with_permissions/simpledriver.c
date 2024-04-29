@@ -6,11 +6,16 @@
 #include "simpledriver.h"
 
 
-char kernel_buffer[BUFFER_SIZE] = "";
+char kernel_buffer[BUFFER_SIZE] = "HELLO FROM ZIAD BIN ASSEM";
 
 struct proc_dir_entry* procfs_dir = NULL ; 
 struct proc_dir_entry* procfs_file = NULL ; 
  
+ static int open_proc(struct inode *inode, struct file *file);
+static int release_proc(struct inode *inode, struct file *file);
+static ssize_t write_proc(struct file *filp, const char *userbuffer, size_t len, loff_t * off);
+static ssize_t read_proc(struct file *filp, char __user *userbuffer, size_t length,loff_t * offset);
+
 
 static struct proc_ops proc_fops = {
         .proc_open = open_proc,
@@ -78,6 +83,7 @@ static ssize_t read_proc(struct file *filp, char __user *userbuffer, size_t leng
     if (ret!= 0){
         return -EFAULT;
     }
+    *offset = length ; //update the cursor 
     return length ;  //success read bytes
 }
 

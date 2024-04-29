@@ -185,15 +185,16 @@ static ssize_t write_proc(struct file *filp, const char *userbuffer, size_t len,
 static ssize_t read_proc(struct file *filp, char __user *userbuffer, size_t length,loff_t * offset)
 {
 
-    if (count  + *offset >  BUFFER_SIZE) {
-        count = BUFFER_SIZE - *offset;
+    if (length  + *offset >  BUFFER_SIZE) {
+        length = BUFFER_SIZE - *offset;
     }
     int ret ;
-    ret = copy_to_user(userbuffer, &kernel_buffer[*offset], count);
+    ret = copy_to_user(userbuffer, &kernel_buffer[*offset], length);
     if (ret!= 0){
         return -EFAULT;
     }
-    return count ;  //success read bytes
+    *offset = length ; //update the cursor to prevent continous reading
+    return length ;  //success read bytes
 }
 ```
 

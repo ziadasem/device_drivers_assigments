@@ -78,6 +78,7 @@ static ssize_t read_proc(struct file *filp, char __user *userbuffer, size_t leng
     if (ret!= 0){
         return -EFAULT;
     }
+    *offset = length ; //update the cursor 
     return length ;  //success read bytes
 }
 
