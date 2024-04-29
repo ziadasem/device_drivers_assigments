@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Except directories
+!*/
+
+# Except Makefiles and .c files
+!*.c
+!*/Makefile
